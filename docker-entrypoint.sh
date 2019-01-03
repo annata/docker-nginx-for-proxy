@@ -1,6 +1,27 @@
 #!/bin/bash
 set -e
-TEXT="server {\nlisten       80;\nserver_name localhost;\nindex  index.html index.php index.htm;\n"
+TEXT=""
+for (( i=0; i>-1; i++ ))
+do
+	upstream=`eval echo '$'"UPSTREAM_$i"`
+	if [ -z $upstream ];then
+		break
+	fi
+	TEXT=${TEXT}"upstream "${upstream}" {\n"
+    for (( i=0; i>-1; i++ ))
+    do
+    	server=`eval echo '$'"UPSTREAM_${upstream}_${i}"`
+    	if [ -z $server ];then
+    		break
+    	fi
+    	TEXT=${TEXT}"server "$server";\n"
+    done
+	TEXT=${TEXT}"}\n"
+done
+TEXT=${TEXT}"server {\nlisten       80;\nserver_name localhost;\nindex  index.html index.php index.htm;\n"
+if [ $HOST ];then
+	TEXT=${TEXT}"proxy_set_header Host       \$host;\n"
+fi
 for (( i=0; i>-1; i++ ))
 do
 	url=`eval echo '$'"URL_$i"`
