@@ -20,7 +20,11 @@ do
 done
 TEXT=${TEXT}"server {\nlisten       80;\nserver_name localhost;\nindex  index.html index.php index.htm;\n"
 if [ $HOST ];then
-	TEXT=${TEXT}"proxy_set_header Host       \$host;\n"
+    if [ $HOST_PORT ];then
+	TEXT=${TEXT}"proxy_set_header Host       \$host:\$proxy_port;\n"
+    else
+        TEXT=${TEXT}"proxy_set_header Host       \$host;\n"
+    fi
 fi
 for (( i=0; i>-1; i++ ))
 do
