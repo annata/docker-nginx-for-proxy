@@ -29,17 +29,17 @@ fi
 if [ $CONNECT_TIMEOUT ];then
     TEXT=${TEXT}"proxy_connect_timeout $CONNECT_TIMEOUT;\n"
 else
-	TEXT=${TEXT}"proxy_connect_timeout 60;\n"
+	TEXT=${TEXT}"proxy_connect_timeout 60s;\n"
 fi
 if [ $SEND_TIMEOUT ];then
     TEXT=${TEXT}"proxy_send_timeout $SEND_TIMEOUT;\n"
 else
-	TEXT=${TEXT}"proxy_send_timeout 60;\n"
+	TEXT=${TEXT}"proxy_send_timeout 60s;\n"
 fi
 if [ $READ_TIMEOUT ];then
     TEXT=${TEXT}"proxy_read_timeout $READ_TIMEOUT;\n"
 else
-	TEXT=${TEXT}"proxy_read_timeout 90;\n"
+	TEXT=${TEXT}"proxy_read_timeout 90s;\n"
 fi
 for (( i=0; i>-1; i++ ))
 do
