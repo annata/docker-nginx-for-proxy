@@ -21,10 +21,25 @@ done
 TEXT=${TEXT}"server {\nlisten       80;\nserver_name localhost;\nindex  index.html index.php index.htm;\n"
 if [ $HOST ];then
     if [ $HOST_PORT ];then
-	TEXT=${TEXT}"proxy_set_header Host       \$host:\$proxy_port;\n"
+	    TEXT=${TEXT}"proxy_set_header Host       \$host:\$proxy_port;\n"
     else
         TEXT=${TEXT}"proxy_set_header Host       \$host;\n"
     fi
+fi
+if [ $CONNECT_TIMEOUT ];then
+    TEXT=${TEXT}"proxy_connect_timeout $CONNECT_TIMEOUT;\n"
+else
+	TEXT=${TEXT}"proxy_connect_timeout 60;\n"
+fi
+if [ $SEND_TIMEOUT ];then
+    TEXT=${TEXT}"proxy_send_timeout $SEND_TIMEOUT;\n"
+else
+	TEXT=${TEXT}"proxy_send_timeout 60;\n"
+fi
+if [ $READ_TIMEOUT ];then
+    TEXT=${TEXT}"proxy_read_timeout $READ_TIMEOUT;\n"
+else
+	TEXT=${TEXT}"proxy_read_timeout 90;\n"
 fi
 for (( i=0; i>-1; i++ ))
 do
