@@ -19,6 +19,9 @@ do
 	TEXT=${TEXT}"}\n"
 done
 TEXT=${TEXT}"server {\nlisten       80;\nserver_name localhost;\nindex  index.html index.php index.htm;\n"
+if [ $RESOLVER ];then
+	TEXT=${TEXT}"resolver $RESOLVER;\n"
+fi
 if [ $HOST ];then
     if [ $HOST_PORT ];then
 	    TEXT=${TEXT}"proxy_set_header Host       \$host:\$proxy_port;\n"
