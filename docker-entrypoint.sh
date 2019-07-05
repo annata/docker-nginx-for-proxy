@@ -56,9 +56,9 @@ do
 	fi
 	TEXT=${TEXT}"location $path {\nproxy_pass $url;\n}\n"
 done
-if [ -z $DEFAULT_URL ];then
-	DEFAULT_URL=http://www.baidu.com
+if [ $DEFAULT_URL ];then
+	TEXT=${TEXT}"location / {\nproxy_pass $DEFAULT_URL;\n}\n"
 fi
-TEXT=${TEXT}"location / {\nproxy_pass $DEFAULT_URL;\n}\n}"
+TEXT=${TEXT}"}\n"
 echo -e $TEXT > /etc/nginx/conf.d/default.conf
 exec nginx -g 'daemon off;'
