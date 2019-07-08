@@ -18,15 +18,27 @@ do
     done
 	TEXT=${TEXT}"}\n"
 done
-TEXT=${TEXT}"server {\nlisten       80;\nserver_name localhost;\nindex  index.html index.php index.htm;\n"
+TEXT=${TEXT}"server {\nlisten 80;\n"
+if [ -f "/cert/cert.crt" ] && [ -f "/cert/cert.key" ]
+then
+crontab -l | {
+cat
+echo '8 3 * * * nginx -s reload > /dev/null'
+} | crontab -
+TEXT=${TEXT}"listen 443 ssl;\n"
+TEXT=${TEXT}"ssl_certificate /cert/cert.crt;\n"
+TEXT=${TEXT}"ssl_certificate_key /cert/cert.key;\n"
+crond
+fi
+TEXT=${TEXT}"index index.html index.php index.htm index.pdf;\n"
 if [ $RESOLVER ];then
 	TEXT=${TEXT}"resolver $RESOLVER;\n"
 fi
 if [ $HOST ];then
     if [ $HOST_PORT ];then
-	    TEXT=${TEXT}"proxy_set_header Host       \$host:\$proxy_port;\n"
+	    TEXT=${TEXT}"proxy_set_header Host \$host:\$proxy_port;\n"
     else
-        TEXT=${TEXT}"proxy_set_header Host       \$host;\n"
+        TEXT=${TEXT}"proxy_set_header Host \$host;\n"
     fi
 fi
 if [ $CONNECT_TIMEOUT ];then
