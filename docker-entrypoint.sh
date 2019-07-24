@@ -19,15 +19,17 @@ do
 	TEXT=${TEXT}"}\n"
 done
 TEXT=${TEXT}"server {\nlisten 80;\n"
-if [ -f "/cert/cert.crt" ] && [ -f "/cert/cert.key" ]
+CRT="/cert/"${CERT_PREFIX}"cert.crt"
+KEY="/cert/"${CERT_PREFIX}"cert.key"
+if [ -f $CRT ] && [ -f $KEY ]
 then
 crontab -l | {
 cat
 echo '8 3 * * * nginx -s reload > /dev/null'
 } | crontab -
 TEXT=${TEXT}"listen 443 ssl;\n"
-TEXT=${TEXT}"ssl_certificate /cert/cert.crt;\n"
-TEXT=${TEXT}"ssl_certificate_key /cert/cert.key;\n"
+TEXT=${TEXT}"ssl_certificate "${CRT}";\n"
+TEXT=${TEXT}"ssl_certificate_key "${KEY}";\n"
 crond
 fi
 TEXT=${TEXT}"index index.html index.php index.htm index.pdf;\n"
