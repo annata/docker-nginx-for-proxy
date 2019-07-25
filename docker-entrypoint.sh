@@ -36,8 +36,8 @@ if [ $CLIENT_CERT ];then
 	wget $CLIENT_CERT -O /root/client_cert.crt;
 	TEXT=${TEXT}"ssl_client_certificate /root/client_cert.crt;\n"
 	TEXT=${TEXT}"ssl_verify_client on;\n"
-	TEXT=${TEXT}"return 301 https://\$host\$request_uri;\n"
 	TEXT=${TEXT}"if ( \$scheme = http ) {\n"
+	TEXT=${TEXT}"return 301 https://\$host\$request_uri;\n"
 	TEXT=${TEXT}"}\n"
 fi
 TEXT=${TEXT}"index index.html index.php index.htm index.pdf;\n"
