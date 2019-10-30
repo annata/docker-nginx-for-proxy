@@ -66,6 +66,9 @@ if [ $READ_TIMEOUT ];then
 else
 	TEXT=${TEXT}"proxy_read_timeout 90s;\n"
 fi
+if [ $WEBSOCKET ];then
+	web_socket="proxy_http_version 1.1;\nproxy_set_header Upgrade \$http_upgrade;\nproxy_set_header Connection \$connection_upgrade;\n"
+fi
 for (( i=0; i>-1; i++ ))
 do
 	url=`eval echo '$'"URL_$i"`
@@ -76,10 +79,10 @@ do
 	if [ -z $path ];then
 		break
 	fi
-	TEXT=${TEXT}"location $path {\nproxy_pass $url;\n}\n"
+	TEXT=${TEXT}"location $path {\nproxy_pass $url;\n$web_socket}\n"
 done
 if [ $DEFAULT_URL ];then
-	TEXT=${TEXT}"location / {\nproxy_pass $DEFAULT_URL;\n}\n"
+	TEXT=${TEXT}"location / {\nproxy_pass $DEFAULT_URL;\n$web_socket}\n"
 fi
 TEXT=${TEXT}"}\n"
 echo -e $TEXT > /etc/nginx/conf.d/default.conf
