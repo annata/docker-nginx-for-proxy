@@ -51,6 +51,17 @@ if [ $HOST ];then
         TEXT=${TEXT}"proxy_set_header Host \$host;\n"
     fi
 fi
+TEXT=${TEXT}"include naproxy.conf;\n"
+if [ $FORWARD_PROXY ];then
+else
+	if [ $FIRST_PROXY ];then
+		TEXT=${TEXT}"proxy_set_header X-Real-IP \$remote_addr;\n"
+	    TEXT=${TEXT}"proxy_set_header X-Forwarded-For \$remote_addr;\n"
+	else
+		TEXT=${TEXT}"proxy_set_header X-Real-IP \$remote_addr;\n"
+	    TEXT=${TEXT}"proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;\n"
+	fi
+fi
 if [ $CONNECT_TIMEOUT ];then
     TEXT=${TEXT}"proxy_connect_timeout $CONNECT_TIMEOUT;\n"
 else
