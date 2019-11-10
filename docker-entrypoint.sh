@@ -52,8 +52,7 @@ if [ $HOST ];then
     fi
 fi
 TEXT=${TEXT}"include naproxy.conf;\n"
-if [ $FORWARD_PROXY ];then
-else
+if [ -z $FORWARD_PROXY ];then
 	if [ $FIRST_PROXY ];then
 		TEXT=${TEXT}"proxy_set_header X-Real-IP \$remote_addr;\n"
 	    TEXT=${TEXT}"proxy_set_header X-Forwarded-For \$remote_addr;\n"
