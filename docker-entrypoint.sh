@@ -27,7 +27,7 @@ crontab -l | {
 cat
 echo '8 3 * * * nginx -s reload > /dev/null'
 } | crontab -
-TEXT=${TEXT}"listen 443 ssl;\n"
+TEXT=${TEXT}"listen 443 ssl http2;\n"
 TEXT=${TEXT}"ssl_certificate "${CRT}";\n"
 TEXT=${TEXT}"ssl_certificate_key "${KEY}";\n"
 crond
