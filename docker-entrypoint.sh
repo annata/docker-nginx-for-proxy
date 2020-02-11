@@ -18,6 +18,9 @@ do
     done
 	TEXT=${TEXT}"}\n"
 done
+if [ $LIMIT_REQ_ZONE ];then
+	TEXT=${TEXT}"limit_req_zone \$binary_remote_addr zone=two:10m rate=$LIMIT_REQ_ZONE;\n"
+fi
 TEXT=${TEXT}"server {\nlisten 80;\n"
 CRT="/cert/"${CERT_PREFIX}"cert.crt"
 KEY="/cert/"${CERT_PREFIX}"cert.key"
@@ -75,6 +78,15 @@ if [ $READ_TIMEOUT ];then
     TEXT=${TEXT}"proxy_read_timeout $READ_TIMEOUT;\n"
 else
 	TEXT=${TEXT}"proxy_read_timeout 90s;\n"
+fi
+if [ $LIMIT_RATE ];then
+	TEXT=${TEXT}"limit_rate $LIMIT_RATE;\n"
+fi
+if [ $LIMIT_CONN ];then
+	TEXT=${TEXT}"limit_conn one $LIMIT_CONN;\n"
+fi
+if [ $LIMIT_REQ ];then
+	TEXT=${TEXT}"limit_req zone=two burst=$LIMIT_REQ nodelay;\n"
 fi
 if [ $WEBSOCKET ];then
 	web_socket="proxy_http_version 1.1;\nproxy_set_header Upgrade \$http_upgrade;\nproxy_set_header Connection \$connection_upgrade;\n"
