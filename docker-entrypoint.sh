@@ -64,6 +64,9 @@ if [ -z $FORWARD_PROXY ];then
 	    TEXT=${TEXT}"proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;\n"
 	fi
 fi
+if [ $HIDE_DISPOSITION ];then
+	TEXT=${TEXT}"proxy_hide_header Content-Disposition;\n"
+fi
 if [ $CONNECT_TIMEOUT ];then
     TEXT=${TEXT}"proxy_connect_timeout $CONNECT_TIMEOUT;\n"
 else
