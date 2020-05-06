@@ -1,4 +1,4 @@
-FROM nginx:1.16-alpine
+FROM nginx:1.18-alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY naproxy.conf /etc/nginx/naproxy.conf
 COPY docker-entrypoint.sh /docker-entrypoint.sh
