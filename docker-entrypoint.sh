@@ -33,6 +33,9 @@ echo '8 3 * * * nginx -s reload > /dev/null'
 TEXT=${TEXT}"listen 443 ssl http2;\n"
 TEXT=${TEXT}"ssl_certificate "${CRT}";\n"
 TEXT=${TEXT}"ssl_certificate_key "${KEY}";\n"
+if [ $SSL_STAPLING_RESPONDER ];then
+	TEXT=${TEXT}"ssl_stapling_responder "${SSL_STAPLING_RESPONDER}";\n"
+fi
 crond
 fi
 if [ $CLIENT_CERT ];then
