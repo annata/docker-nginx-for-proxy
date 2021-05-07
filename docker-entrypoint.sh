@@ -64,7 +64,7 @@ if [ -z $FORWARD_PROXY ];then
 	    TEXT=${TEXT}"proxy_set_header X-Forwarded-For \$remote_addr;\n"
 	else
 		TEXT=${TEXT}"proxy_set_header X-Real-IP \$remote_addr;\n"
-	    TEXT=${TEXT}"proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;\n"
+	    TEXT=${TEXT}"proxy_set_header X-Forwarded-For \$custom_x_forwarded_for;\n"
 	fi
 fi
 if [ $HIDE_DISPOSITION ];then
