@@ -57,6 +57,9 @@ if [ $HOST ];then
         TEXT=${TEXT}"proxy_set_header Host \$host;\n"
     fi
 fi
+if [ $REWRITE_HOST ];then
+	TEXT=${TEXT}"proxy_set_header Host $REWRITE_HOST;\n"
+fi
 TEXT=${TEXT}"include naproxy.conf;\n"
 if [ -z $FORWARD_PROXY ];then
 	if [ $FIRST_PROXY ];then
