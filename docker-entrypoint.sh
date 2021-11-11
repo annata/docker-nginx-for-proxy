@@ -79,18 +79,15 @@ if [ $CROSS_ORIGIN ];then
 fi
 if [ $CONNECT_TIMEOUT ];then
     TEXT=${TEXT}"proxy_connect_timeout $CONNECT_TIMEOUT;\n"
-else
-	TEXT=${TEXT}"proxy_connect_timeout 60s;\n"
 fi
 if [ $SEND_TIMEOUT ];then
     TEXT=${TEXT}"proxy_send_timeout $SEND_TIMEOUT;\n"
-else
-	TEXT=${TEXT}"proxy_send_timeout 60s;\n"
 fi
 if [ $READ_TIMEOUT ];then
     TEXT=${TEXT}"proxy_read_timeout $READ_TIMEOUT;\n"
-else
-	TEXT=${TEXT}"proxy_read_timeout 90s;\n"
+fi
+if [ $SENDING_TIMEOUT ];then
+    TEXT=${TEXT}"send_timeout $SENDING_TIMEOUT;\n"
 fi
 if [ $LIMIT_RATE ];then
 	TEXT=${TEXT}"limit_rate $LIMIT_RATE;\n"
