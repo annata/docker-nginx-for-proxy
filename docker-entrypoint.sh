@@ -75,7 +75,11 @@ if [ $HIDE_DISPOSITION ];then
 fi
 if [ $CROSS_ORIGIN ];then
     TEXT=${TEXT}"proxy_hide_header Access-Control-Allow-Origin;\n"
+    TEXT=${TEXT}"proxy_hide_header Access-Control-Allow-Headers;\n"
+    TEXT=${TEXT}"proxy_hide_header Access-Control-Allow-Methods;\n"
     TEXT=${TEXT}"add_header Access-Control-Allow-Origin *;\n"
+    TEXT=${TEXT}"add_header Access-Control-Allow-Headers *;\n"
+    TEXT=${TEXT}"add_header Access-Control-Allow-Methods *;\n"
 fi
 if [ $CONNECT_TIMEOUT ];then
     TEXT=${TEXT}"proxy_connect_timeout $CONNECT_TIMEOUT;\n"
