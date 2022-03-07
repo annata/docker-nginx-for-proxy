@@ -71,6 +71,7 @@ if [ $HOST ];then
 fi
 if [ $REWRITE_HOST ];then
 	TEXT=${TEXT}"proxy_set_header Host $REWRITE_HOST;\n"
+	TEXT=${TEXT}"proxy_ssl_name $REWRITE_HOST;\n"
 fi
 TEXT=${TEXT}"include naproxy.conf;\n"
 if [ -z $FORWARD_PROXY ];then
