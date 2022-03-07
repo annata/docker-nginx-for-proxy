@@ -21,7 +21,19 @@ done
 if [ $LIMIT_REQ_ZONE ];then
 	TEXT=${TEXT}"limit_req_zone \$binary_remote_addr zone=two:10m rate=$LIMIT_REQ_ZONE;\n"
 fi
-TEXT=${TEXT}"server {\nlisten 80;\nlisten 88 proxy_protocol;\n"
+if [ -z $HTTP_PORT ];then
+	HTTP_PORT=80
+fi
+if [ -z $HTTPS_PORT ];then
+	HTTPS_PORT=443
+fi
+if [ -z $HTTP_PROXY_PORT ];then
+	HTTP_PROXY_PORT=88
+fi
+if [ -z $HTTPS_PROXY_PORT ];then
+	HTTPS_PROXY_PORT=451
+fi
+TEXT=${TEXT}"server {\nlisten "${HTTP_PORT}";\nlisten "${HTTP_PROXY_PORT}" proxy_protocol;\n"
 CRT="/cert/"${CERT_PREFIX}"cert.crt"
 KEY="/cert/"${CERT_PREFIX}"cert.key"
 if [ -f $CRT ] && [ -f $KEY ]
@@ -30,7 +42,7 @@ crontab -l | {
 cat
 echo '8 3 * * * nginx -s reload > /dev/null'
 } | crontab -
-TEXT=${TEXT}"listen 443 ssl http2;\nlisten 451 ssl http2 proxy_protocol;\n"
+TEXT=${TEXT}"listen "${HTTPS_PORT}" ssl http2;\nlisten "${HTTPS_PROXY_PORT}" ssl http2 proxy_protocol;\n"
 TEXT=${TEXT}"ssl_certificate "${CRT}";\n"
 TEXT=${TEXT}"ssl_certificate_key "${KEY}";\n"
 if [ $SSL_STAPLING_RESPONDER ];then
