@@ -115,9 +115,8 @@ fi
 if [ $LIMIT_REQ ];then
 	TEXT=${TEXT}"limit_req zone=two burst=$LIMIT_REQ nodelay;\n"
 fi
-if [ $WEBSOCKET ];then
-	TEXT=${TEXT}"proxy_http_version 1.1;\nproxy_set_header Upgrade \$http_upgrade;\nproxy_set_header Connection \$connection_upgrade;\n"
-fi
+TEXT=${TEXT}"proxy_http_version 1.1;\n"
+TEXT=${TEXT}"proxy_set_header Upgrade \$http_upgrade;\nproxy_set_header Connection \$connection_upgrade;\n"
 for (( i=0; i>-1; i++ ))
 do
 	url=`eval echo '$'"URL_$i"`
