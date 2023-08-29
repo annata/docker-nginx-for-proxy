@@ -131,6 +131,7 @@ do
 done
 if [ $DEFAULT_INDEX ];then
 	TEXT=${TEXT}"location ~ index\\.html\$ {\nproxy_pass $DEFAULT_INDEX;\n}\n"
+	TEXT=${TEXT}"location ~ favicon\\.ico\$ {\nproxy_pass $DEFAULT_INDEX;\n}\n"
 	TEXT=${TEXT}"location ~ /\$ {\nproxy_pass $DEFAULT_INDEX;\n}\n"
 fi
 if [ $DEFAULT_URL ];then
