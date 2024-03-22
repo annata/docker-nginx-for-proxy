@@ -115,6 +115,10 @@ fi
 if [ $LIMIT_REQ ];then
 	TEXT=${TEXT}"limit_req zone=two burst=$LIMIT_REQ nodelay;\n"
 fi
+if [ $NO_CACHE ];then
+	TEXT=${TEXT}"proxy_cache off;\n"
+	TEXT=${TEXT}"add_header 'Cache-Control' 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';\n"
+fi
 TEXT=${TEXT}"proxy_http_version 1.1;\n"
 TEXT=${TEXT}"proxy_set_header Upgrade \$http_upgrade;\nproxy_set_header Connection \$connection_upgrade;\n"
 for (( i=0; i>-1; i++ ))
@@ -130,8 +134,8 @@ do
 	TEXT=${TEXT}"location $path {\nproxy_pass $url;\n}\n"
 done
 if [ $DEFAULT_INDEX ];then
-	TEXT=${TEXT}"location ~ index\\.html\$ {\nproxy_pass $DEFAULT_INDEX;\n}\n"
-	TEXT=${TEXT}"location ~ favicon\\.ico\$ {\nproxy_pass $DEFAULT_INDEX;\n}\n"
+	TEXT=${TEXT}"location ~ \\.html\$ {\nproxy_pass $DEFAULT_INDEX;\n}\n"
+	TEXT=${TEXT}"location ~ \\.ico\$ {\nproxy_pass $DEFAULT_INDEX;\n}\n"
 	TEXT=${TEXT}"location ~ /\$ {\nproxy_pass $DEFAULT_INDEX;\n}\n"
 fi
 if [ $DEFAULT_URL ];then
