@@ -141,6 +141,7 @@ fi
 if [ $DEFAULT_URL ];then
 	TEXT=${TEXT}"location / {\nproxy_pass $DEFAULT_URL;\n}\n"
 fi
+TEXT=${TEXT}"location /nginx/healthz {\nreturn 200 'health';\n}\n"
 TEXT=${TEXT}"}\n"
 echo -e $TEXT > /etc/nginx/conf.d/default.conf
 exec nginx -g 'daemon off;'
